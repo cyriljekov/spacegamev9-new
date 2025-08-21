@@ -33,7 +33,8 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '2mb'
     }
-  }
+  },
+  devIndicators: false
 }
 
 module.exports = withPWA(nextConfig)

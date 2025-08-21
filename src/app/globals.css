@@ -149,4 +149,13 @@
   .smooth-scroll {
     -webkit-overflow-scrolling: touch;
   }
+  
+  /* Hide Next.js development indicators */
+  #__next-build-watcher,
+  [data-nextjs-build-watcher],
+  [data-nextjs-toast-errors],
+  #__next-dev-overlay,
+  [data-nextjs-dev-overlay] {
+    display: none !important;
+  }
 }

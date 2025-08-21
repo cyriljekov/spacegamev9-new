@@ -14,6 +14,7 @@ export function ShipMode() {
   const [showFragmentAssembly, setShowFragmentAssembly] = useState(false)
   const [showSaveLoad, setShowSaveLoad] = useState<'save' | 'load' | null>(null)
   const [showInventory, setShowInventory] = useState(false)
+  const [showMenu, setShowMenu] = useState(false)
   
   const totalFragments = fragments.ship.size + fragments.gate.size + fragments.truth.size
   
@@ -26,62 +27,81 @@ export function ShipMode() {
       
       {/* Overlay Status Bar - Semi-transparent */}
       <div className="absolute top-0 left-0 right-0 z-10">
-        <ShipStatusBar />
+        <ShipStatusBar onMenuClick={() => setShowMenu(!showMenu)} />
       </div>
       
-      {/* Bottom Action Bar - Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 bg-[#0a0a0a]/90 backdrop-blur-sm border-t border-[#222]/50 px-4 sm:px-6 lg:px-10 py-3 sm:py-4 safe-bottom">
-        <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 sm:justify-between items-center">
-          <div className="grid grid-cols-4 sm:flex gap-2 sm:gap-3 w-full sm:w-auto">
+      {/* Menu Dropdown */}
+      {showMenu && (
+        <div className="absolute top-16 left-4 z-20 bg-[#0a0a0a]/95 backdrop-blur-sm border border-[#333]/50 rounded-lg p-2 min-w-[160px] shadow-2xl">
+          <div className="flex flex-col gap-1">
             <MinimalButton 
-              onClick={() => setShowSaveLoad('save')}
-              variant="secondary"
+              onClick={() => {
+                setShowSaveLoad('save')
+                setShowMenu(false)
+              }}
+              variant="ghost"
               size="sm"
-              className="text-[9px] sm:text-[11px]"
+              className="text-[11px] text-left justify-start px-3 py-2"
             >
-              Save
+              💾 Save Game
             </MinimalButton>
             <MinimalButton 
-              onClick={() => setShowSaveLoad('load')}
-              variant="secondary"
+              onClick={() => {
+                setShowSaveLoad('load')
+                setShowMenu(false)
+              }}
+              variant="ghost"
               size="sm"
-              className="text-[9px] sm:text-[11px]"
+              className="text-[11px] text-left justify-start px-3 py-2"
             >
-              Load
+              📁 Load Game
             </MinimalButton>
             <MinimalButton 
-              onClick={() => setShowFragmentAssembly(true)}
-              variant={totalFragments > 0 ? 'primary' : 'secondary'}
+              onClick={() => {
+                setShowFragmentAssembly(true)
+                setShowMenu(false)
+              }}
+              variant="ghost"
               size="sm"
               disabled={totalFragments === 0}
-              className="text-[9px] sm:text-[11px]"
+              className="text-[11px] text-left justify-start px-3 py-2"
             >
-              <span className="hidden sm:inline">Fragments</span>
-              <span className="sm:hidden">Frag</span>
-              <span className="ml-1">({totalFragments})</span>
+              🔮 Fragments ({totalFragments})
             </MinimalButton>
             <MinimalButton 
-              onClick={() => setShowInventory(true)}
-              variant="secondary"
+              onClick={() => {
+                setShowInventory(true)
+                setShowMenu(false)
+              }}
+              variant="ghost"
               size="sm"
-              className="text-[9px] sm:text-[11px]"
+              className="text-[11px] text-left justify-start px-3 py-2"
             >
-              <span className="hidden sm:inline">Inventory</span>
-              <span className="sm:hidden">Inv</span>
+              🎒 Inventory
+            </MinimalButton>
+            <div className="border-t border-[#333]/50 my-1" />
+            <MinimalButton
+              onClick={() => {
+                setMode('exploration')
+                setShowMenu(false)
+              }}
+              variant="ghost"
+              size="sm"
+              className="text-[11px] text-left justify-start px-3 py-2"
+            >
+              🚀 Exploration Mode
             </MinimalButton>
           </div>
-          
-          <MinimalButton
-            onClick={() => setMode('exploration')}
-            variant="ghost"
-            size="sm"
-            className="w-full sm:w-auto mt-2 sm:mt-0 text-[10px] sm:text-[11px]"
-          >
-            <span className="hidden sm:inline">→ Exploration Mode</span>
-            <span className="sm:hidden">Exploration</span>
-          </MinimalButton>
         </div>
-      </div>
+      )}
+      
+      {/* Click outside menu to close */}
+      {showMenu && (
+        <div 
+          className="fixed inset-0 z-15" 
+          onClick={() => setShowMenu(false)}
+        />
+      )}
       
       {/* Modals */}
       {showFragmentAssembly && (

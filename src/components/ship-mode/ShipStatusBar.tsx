@@ -2,8 +2,13 @@
 
 import { useGameStore } from '@/stores/gameStore'
 import { useViewport } from '@/hooks/useViewport'
+import { MinimalButton } from '../ui/MinimalButton'
 
-export function ShipStatusBar() {
+interface ShipStatusBarProps {
+  onMenuClick: () => void
+}
+
+export function ShipStatusBar({ onMenuClick }: ShipStatusBarProps) {
   const { fuel, materials, hull, health, fragments, currentSystem } = useGameStore()
   const totalFragments = fragments.ship.size + fragments.gate.size + fragments.truth.size
   const viewport = useViewport()
@@ -18,13 +23,22 @@ export function ShipStatusBar() {
   
   return (
     <div className="bg-[#0a0a0a]/85 backdrop-blur-sm border-b border-[#111]/50 px-4 sm:px-6 lg:px-10 py-2 sm:py-3">
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4">
+      <div className="flex justify-between items-center gap-2 sm:gap-4">
+        {/* Menu Button */}
+        <MinimalButton
+          onClick={onMenuClick}
+          variant="ghost"
+          size="sm"
+          className="text-[11px] px-2 py-1"
+        >
+          ☰ MENU
+        </MinimalButton>
         {/* Stats Grid - Responsive */}
         <div className={`
-          grid gap-2 sm:gap-4 lg:gap-8 w-full sm:w-auto
+          grid gap-2 sm:gap-4 lg:gap-8 flex-1 mx-4
           ${viewport.isMobile 
             ? 'grid-cols-3' 
-            : 'grid-cols-5 sm:flex sm:flex-row'
+            : 'grid-cols-5 sm:flex sm:flex-row sm:justify-center'
           }
         `}>
           {stats.map(stat => (

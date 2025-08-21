@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 10 10 10;
+    --foreground: 255 255 255;
+  }
+  
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body {
+    @apply bg-black text-white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .terminal-text {
+    @apply font-mono text-terminal-green;
+    text-shadow: 0 0 5px currentColor;
+  }
+
+  .glitch {
+    animation: glitch 2s ease-in-out infinite;
+  }
+
+  @keyframes glitch {
+    0%, 100% {
+      text-shadow: 
+        0 0 5px rgba(0, 255, 0, 0.8),
+        2px 2px 2px rgba(255, 0, 64, 0.5);
+      transform: translate(0);
+    }
+    20% {
+      text-shadow: 
+        0 0 5px rgba(0, 255, 0, 0.8),
+        -2px -2px 2px rgba(0, 212, 255, 0.5);
+      transform: translate(2px, -1px);
+    }
+    40% {
+      text-shadow: 
+        0 0 5px rgba(0, 255, 0, 0.8),
+        2px -2px 2px rgba(159, 68, 211, 0.5);
+      transform: translate(-1px, 2px);
+    }
+  }
+
+  .hex-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 2px;
+  }
+
+  .hex {
+    @apply relative bg-space-gray border border-gray-700 hover:border-echo-blue transition-all cursor-pointer;
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+    aspect-ratio: 1;
+  }
+}
+
+@layer utilities {
+  /* Custom scrollbar styles */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  
+  .scrollbar-track-black {
+    scrollbar-color: #222 #000;
+  }
+  
+  .scrollbar-thumb-\[\#222\] {
+    scrollbar-color: #222 #000;
+  }
+}
+
+/* Webkit scrollbar styles */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Animation for exploration cards */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Responsive utilities */
+@layer utilities {
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  /* Touch-friendly tap targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent text selection on mobile */
+  .no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Smooth scrolling */
+  .smooth-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+}
